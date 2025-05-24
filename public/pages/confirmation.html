@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rezervasyon Onayı - FlyTicket</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="../css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">
+          <i class="fas fa-plane me-2"></i>
+          FlyTicket
+        </a>
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link" href="../index.html">Ana Sayfa</a>
+          <a class="nav-link" href="admin/login.html">Admin</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Confirmation Content -->
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <!-- Success Message -->
+          <div class="text-center mb-5">
+            <div class="success-icon mb-3">
+              <i
+                class="fas fa-check-circle text-success"
+                style="font-size: 4rem"
+              ></i>
+            </div>
+            <h2 class="text-success mb-3">Rezervasyonunuz Onaylandı!</h2>
+            <p class="lead text-muted">
+              Biletiniz başarıyla oluşturuldu. Aşağıda rezervasyon detaylarınızı
+              görebilirsiniz.
+            </p>
+          </div>
+
+          <!-- Ticket Details Card -->
+          <div class="card shadow-lg mb-4">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0">
+                <i class="fas fa-ticket-alt me-2"></i>
+                Bilet Detayları
+              </h5>
+            </div>
+            <div class="card-body" id="ticketDetails">
+              <!-- Bilet detayları buraya gelecek -->
+              <div class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Yükleniyor...</span>
+                </div>
+                <p class="mt-2">Bilet bilgileri yükleniyor...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Digital Ticket -->
+          <div
+            class="card shadow-sm mb-4"
+            id="digitalTicket"
+            style="display: none"
+          >
+            <div class="card-header bg-light">
+              <h6 class="mb-0">
+                <i class="fas fa-mobile-alt me-2"></i>
+                Dijital Bilet
+              </h6>
+            </div>
+            <div class="card-body" id="digitalTicketContent">
+              <!-- Dijital bilet içeriği -->
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <button
+                class="btn btn-primary btn-lg w-100"
+                onclick="downloadTicket()"
+              >
+                <i class="fas fa-download me-2"></i>
+                Bileti İndir (PDF)
+              </button>
+            </div>
+            <div class="col-md-6">
+              <button
+                class="btn btn-outline-primary btn-lg w-100"
+                onclick="sendTicketEmail()"
+              >
+                <i class="fas fa-envelope me-2"></i>
+                E-posta Gönder
+              </button>
+            </div>
+          </div>
+
+          <!-- Important Information -->
+          <div class="alert alert-info">
+            <h6 class="alert-heading">
+              <i class="fas fa-info-circle me-2"></i>
+              Önemli Bilgiler
+            </h6>
+            <ul class="mb-0">
+              <li>
+                Uçuştan en az 2 saat önce havaalanında bulunmanız gerekmektedir.
+              </li>
+              <li>Kimlik belgenizi yanınızda bulundurmanız zorunludur.</li>
+              <li>
+                Biletinizi dijital veya basılı olarak ibraz edebilirsiniz.
+              </li>
+              <li>
+                Değişiklik ve iptal işlemleri için müşteri hizmetleri ile
+                iletişime geçin.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="text-center">
+            <a href="../index.html" class="btn btn-outline-secondary me-3">
+              <i class="fas fa-home me-2"></i>
+              Ana Sayfaya Dön
+            </a>
+            <button class="btn btn-success" onclick="newSearch()">
+              <i class="fas fa-search me-2"></i>
+              Yeni Arama Yap
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Print Modal -->
+    <div class="modal fade" id="printModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="fas fa-print me-2"></i>
+              Bilet Önizleme
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body" id="printContent">
+            <!-- Print içeriği -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Kapat
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="window.print()"
+            >
+              <i class="fas fa-print me-2"></i>
+              Yazdır
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/confirmation.js"></script>
+  </body>
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Uçuş Yönetimi - FlyTicket Admin</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/admin.css" rel="stylesheet" />
+  </head>
+  <body class="bg-light">
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="../../index.html">
+          <i class="fas fa-plane me-2"></i>
+          FlyTicket Admin
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="dashboard.html">
+                <i class="fas fa-tachometer-alt me-1"></i>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="manage-flights.html">
+                <i class="fas fa-plane-departure me-1"></i>
+                Uçuşlar
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="manage-bookings.html">
+                <i class="fas fa-ticket-alt me-1"></i>
+                Rezervasyonlar
+              </a>
+            </li>
+          </ul>
+
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="userDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                <i class="fas fa-user-circle me-1"></i>
+                <span id="adminName">Admin</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="dashboard.html">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-2"></i>Çıkış Yap
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid py-4">
+      <!-- Page Header -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h2 class="mb-1">
+                <i class="fas fa-plane-departure me-2 text-primary"></i>
+                Uçuş Yönetimi
+              </h2>
+              <p class="text-muted mb-0">
+                Uçuşları ekleyin, düzenleyin ve yönetin
+              </p>
+            </div>
+            <button
+              class="btn btn-primary btn-lg"
+              onclick="showAddFlightModal()"
+            >
+              <i class="fas fa-plus me-2"></i>
+              Yeni Uçuş Ekle
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters and Search -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-3">
+                  <label class="form-label">Arama</label>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="fas fa-search"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="searchInput"
+                      placeholder="Uçuş no, şehir..."
+                    />
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Kalkış Şehri</label>
+                  <select class="form-select" id="fromCityFilter">
+                    <option value="">Tümü</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Varış Şehri</label>
+                  <select class="form-select" id="toCityFilter">
+                    <option value="">Tümü</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Tarih</label>
+                  <input type="date" class="form-control" id="dateFilter" />
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Durum</label>
+                  <select class="form-select" id="statusFilter">
+                    <option value="">Tümü</option>
+                    <option value="active">Aktif</option>
+                    <option value="completed">Tamamlandı</option>
+                    <option value="cancelled">İptal</option>
+                  </select>
+                </div>
+                <div class="col-md-1">
+                  <label class="form-label">&nbsp;</label>
+                  <button
+                    class="btn btn-outline-secondary w-100"
+                    onclick="clearFilters()"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistics Cards -->
+      <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="icon-circle bg-primary me-3">
+                  <i class="fas fa-plane text-white"></i>
+                </div>
+                <div>
+                  <div class="small text-muted">Toplam Uçuş</div>
+                  <div class="h5 mb-0" id="totalFlightsCount">--</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="icon-circle bg-success me-3">
+                  <i class="fas fa-check-circle text-white"></i>
+                </div>
+                <div>
+                  <div class="small text-muted">Aktif Uçuş</div>
+                  <div class="h5 mb-0" id="activeFlightsCount">--</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="icon-circle bg-warning me-3">
+                  <i class="fas fa-calendar-day text-white"></i>
+                </div>
+                <div>
+                  <div class="small text-muted">Bugünkü Uçuş</div>
+                  <div class="h5 mb-0" id="todayFlightsCount">--</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="icon-circle bg-info me-3">
+                  <i class="fas fa-users text-white"></i>
+                </div>
+                <div>
+                  <div class="small text-muted">Toplam Yolcu</div>
+                  <div class="h5 mb-0" id="totalPassengersCount">--</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flights Table -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                  <i class="fas fa-list me-2"></i>
+                  Uçuş Listesi
+                </h5>
+                <div class="d-flex gap-2">
+                  <button
+                    class="btn btn-outline-success btn-sm"
+                    onclick="exportFlights()"
+                  >
+                    <i class="fas fa-download me-1"></i>
+                    Dışa Aktar
+                  </button>
+                  <button
+                    class="btn btn-outline-primary btn-sm"
+                    onclick="refreshFlights()"
+                  >
+                    <i class="fas fa-sync-alt me-1"></i>
+                    Yenile
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Uçuş No</th>
+                      <th>Güzergah</th>
+                      <th>Tarih & Saat</th>
+                      <th>Süre</th>
+                      <th>Fiyat</th>
+                      <th>Koltuk</th>
+                      <th>Doluluk</th>
+                      <th>Durum</th>
+                      <th>İşlemler</th>
+                    </tr>
+                  </thead>
+                  <tbody id="flightsTable">
+                    <tr>
+                      <td colspan="9" class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                          <span class="visually-hidden">Yükleniyor...</span>
+                        </div>
+                        <div class="mt-2">Uçuş verileri yükleniyor...</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add/Edit Flight Modal -->
+    <div
+      class="modal fade"
+      id="flightModal"
+      tabindex="-1"
+      data-bs-backdrop="static"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="flightModalTitle">
+              <i class="fas fa-plus me-2"></i>
+              Yeni Uçuş Ekle
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="flightForm">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="flightId" class="form-label">
+                    Uçuş Numarası <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="flightId"
+                    required
+                    placeholder="TK123"
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="price" class="form-label">
+                    Fiyat (₺) <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    required
+                    min="0"
+                    step="0.01"
+                    placeholder="500.00"
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="fromCity" class="form-label">
+                    Kalkış Şehri <span class="text-danger">*</span>
+                  </label>
+                  <select class="form-select" id="fromCity" required>
+                    <option value="">Şehir seçin</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="toCity" class="form-label">
+                    Varış Şehri <span class="text-danger">*</span>
+                  </label>
+                  <select class="form-select" id="toCity" required>
+                    <option value="">Şehir seçin</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="departureDate" class="form-label">
+                    Kalkış Tarihi <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="departureDate"
+                    required
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="departureTime" class="form-label">
+                    Kalkış Saati <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="time"
+                    class="form-control"
+                    id="departureTime"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="arrivalDate" class="form-label">
+                    Varış Tarihi <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="arrivalDate"
+                    required
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="arrivalTime" class="form-label">
+                    Varış Saati <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="time"
+                    class="form-control"
+                    id="arrivalTime"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="totalSeats" class="form-label">
+                    Toplam Koltuk <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="totalSeats"
+                    required
+                    min="1"
+                    max="500"
+                    value="180"
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="availableSeats" class="form-label">
+                    Müsait Koltuk <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="availableSeats"
+                    required
+                    min="0"
+                    max="500"
+                    value="180"
+                  />
+                </div>
+              </div>
+
+              <input type="hidden" id="editFlightId" />
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              <i class="fas fa-times me-2"></i>
+              İptal
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="saveFlight()"
+            >
+              <i class="fas fa-save me-2"></i>
+              Kaydet
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              Uçuş Silme Onayı
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>Bu uçuşu silmek istediğinizden emin misiniz?</p>
+            <div class="alert alert-warning">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              <strong>Uyarı:</strong> Bu işlem geri alınamaz ve mevcut
+              rezervasyonlar etkilenebilir.
+            </div>
+            <div id="deleteFlightInfo"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              İptal
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="confirmDeleteFlight()"
+            >
+              <i class="fas fa-trash me-2"></i>
+              Sil
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/manage-flights.js"></script>
+  </body>
+</html>

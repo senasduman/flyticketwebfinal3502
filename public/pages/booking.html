@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rezervasyon - FlyTicket</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="../css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">
+          <i class="fas fa-plane me-2"></i>
+          FlyTicket
+        </a>
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link" href="../index.html">Ana Sayfa</a>
+          <a class="nav-link" href="admin/login.html">Admin</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Booking Content -->
+    <div class="container py-5">
+      <div class="row">
+        <!-- Flight Details Card -->
+        <div class="col-lg-4">
+          <div class="card shadow-sm mb-4 sticky-top" style="top: 100px">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0">
+                <i class="fas fa-plane me-2"></i>
+                Uçuş Detayları
+              </h5>
+            </div>
+            <div class="card-body" id="flightDetails">
+              <!-- Uçuş detayları buraya gelecek -->
+              <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Yükleniyor...</span>
+                </div>
+                <p class="mt-2">Uçuş bilgileri yükleniyor...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking Form -->
+        <div class="col-lg-8">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h4 class="mb-0">
+                <i class="fas fa-user-plus me-2"></i>
+                Yolcu Bilgileri
+              </h4>
+            </div>
+            <div class="card-body">
+              <form id="bookingForm">
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="passengerName" class="form-label">
+                      <i class="fas fa-user me-1"></i>
+                      Ad <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="passengerName"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="passengerSurname" class="form-label">
+                      <i class="fas fa-user me-1"></i>
+                      Soyad <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="passengerSurname"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="passengerEmail" class="form-label">
+                      <i class="fas fa-envelope me-1"></i>
+                      E-posta <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="passengerEmail"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="passengerPhone" class="form-label">
+                      <i class="fas fa-phone me-1"></i>
+                      Telefon
+                    </label>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      id="passengerPhone"
+                      placeholder="0555 555 55 55"
+                    />
+                  </div>
+                </div>
+
+                <div class="row mb-4">
+                  <div class="col-md-6">
+                    <label for="seatNumber" class="form-label">
+                      <i class="fas fa-chair me-1"></i>
+                      Koltuk Numarası (Opsiyonel)
+                    </label>
+                    <select class="form-select" id="seatNumber">
+                      <option value="">Rastgele atansın</option>
+                      <option value="1A">1A - Pencere</option>
+                      <option value="1B">1B - Orta</option>
+                      <option value="1C">1C - Koridor</option>
+                      <option value="2A">2A - Pencere</option>
+                      <option value="2B">2B - Orta</option>
+                      <option value="2C">2C - Koridor</option>
+                      <option value="3A">3A - Pencere</option>
+                      <option value="3B">3B - Orta</option>
+                      <option value="3C">3C - Koridor</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">
+                      <i class="fas fa-credit-card me-1"></i>
+                      Ödeme Yöntemi
+                    </label>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="paymentMethod"
+                        id="creditCard"
+                        value="credit"
+                        checked
+                      />
+                      <label class="form-check-label" for="creditCard">
+                        <i class="fas fa-credit-card me-1"></i>
+                        Kredi Kartı
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="paymentMethod"
+                        id="bankTransfer"
+                        value="bank"
+                      />
+                      <label class="form-check-label" for="bankTransfer">
+                        <i class="fas fa-university me-1"></i>
+                        Banka Havalesi
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Payment Info -->
+                <div id="paymentInfo" class="alert alert-info">
+                  <i class="fas fa-info-circle me-2"></i>
+                  <strong>Ödeme Bilgisi:</strong> Bu demo bir uygulamadır.
+                  Gerçek ödeme işlemi yapılmayacaktır.
+                </div>
+
+                <!-- Terms & Conditions -->
+                <div class="mb-4">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="termsAccepted"
+                      required
+                    />
+                    <label class="form-check-label" for="termsAccepted">
+                      <small>
+                        <a href="#" class="text-decoration-none"
+                          >Kullanım koşullarını</a
+                        >
+                        ve
+                        <a href="#" class="text-decoration-none"
+                          >gizlilik politikasını</a
+                        >
+                        kabul ediyorum.
+                        <span class="text-danger">*</span>
+                      </small>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex gap-3">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    onclick="goBack()"
+                  >
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Geri Dön
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-success btn-lg flex-fill"
+                    id="confirmBookingBtn"
+                  >
+                    <i class="fas fa-check-circle me-2"></i>
+                    Rezervasyonu Onayla
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div
+      class="modal fade"
+      id="loadingModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body text-center py-4">
+            <div class="spinner-border text-primary mb-3" role="status">
+              <span class="visually-hidden">İşleniyor...</span>
+            </div>
+            <h5>Rezervasyonunuz İşleniyor...</h5>
+            <p class="text-muted mb-0">
+              Lütfen bekleyin, bu işlem birkaç saniye sürebilir.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/booking.js"></script>
+  </body>
+</html>
