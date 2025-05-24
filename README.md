@@ -97,49 +97,49 @@ Access to admin panel: `http://localhost:5000/pages/admin/login.html`
 
 ```
 
-flyticket-web-final/
-├── public/
-│ ├── css/
-│ │ ├── admin.css
-│ │ └── style.css
-│ ├── js/
-│ │ ├── admin-dashboard.js
-│ │ ├── admin-login.js
-│ │ ├── booking.js
-│ │ ├── confirmation.js
-│ │ ├── manage-bookings.js
-│ │ ├── manage-flights.js
-│ │ └── script.js
-│ ├── pages/
-│ │ ├── admin/
-│ │ │ ├── dashboard.html
-│ │ │ ├── login.html
-│ │ │ ├── manage-bookings.html
-│ │ │ └── manage-flights.html
-│ │ ├── booking.html
-│ │ ├── confirmation.html
-│ │ └── flights.html
-│ └── index.html
-├── src/
-│ ├── config/
-│ │ └── db.js
-│ ├── controllers/
-│ ├── models/
-│ │ ├── Admin.js
-│ │ ├── City.js
-│ │ ├── Flight.js
-│ │ └── Ticket.js
-│ ├── routes/
-│ │ ├── admin.js
-│ │ ├── cities.js
-│ │ ├── flights.js
-│ │ └── tickets.js
-│ ├── seeders/
-│ │ ├── adminSeeder.js
-│ │ └── citySeeder.js
-│ └── server.js
-├── package.json
-└── README.md
+      flyticket-web-final/
+      ├── public/
+      │ ├── css/
+      │ │ ├── admin.css
+      │ │ └── style.css
+      │ ├── js/
+      │ │ ├── admin-dashboard.js
+      │ │ ├── admin-login.js
+      │ │ ├── booking.js
+      │ │ ├── confirmation.js
+      │ │ ├── manage-bookings.js
+      │ │ ├── manage-flights.js
+      │ │ └── script.js
+      │ ├── pages/
+      │ │ ├── admin/
+      │ │ │ ├── dashboard.html
+      │ │ │ ├── login.html
+      │ │ │ ├── manage-bookings.html
+      │ │ │ └── manage-flights.html
+      │ │ ├── booking.html
+      │ │ ├── confirmation.html
+      │ │ └── flights.html
+      │ └── index.html
+      ├── src/
+      │ ├── config/
+      │ │ └── db.js
+      │ ├── controllers/
+      │ ├── models/
+      │ │ ├── Admin.js
+      │ │ ├── City.js
+      │ │ ├── Flight.js
+      │ │ └── Ticket.js
+      │ ├── routes/
+      │ │ ├── admin.js
+      │ │ ├── cities.js
+      │ │ ├── flights.js
+      │ │ └── tickets.js
+      │ ├── seeders/
+      │ │ ├── adminSeeder.js
+      │ │ └── citySeeder.js
+      │ └── server.js
+      ├── package.json
+      └── README.md
 
 ```
 
