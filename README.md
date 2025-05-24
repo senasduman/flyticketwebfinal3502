@@ -75,13 +75,13 @@ JWT_SECRET=flyticket-secret-key
 PORT=5000
 ```
 
-### 4. Start MongoDB
+### 4. Start Project
 
 Make sure the MongoDB service is running:
 
 ```bash
-# Windows
-net start MongoDB
+npm run dev
+```
 
 ### Open the Application
 Open the following address in your browser: `http://localhost:5000`
